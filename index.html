@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#07061a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Slot the Ball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Archivo:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ SPLASH ============ -->
+<section class="splash" id="splash">
+  <div class="sp-fan">
+    <div class="sp-card c1" style="background-image:url(assets/img/basketball-2.jpg)"></div>
+    <div class="sp-card c3" style="background-image:url(assets/img/football-2.jpg)"></div>
+    <div class="sp-card c2" style="background-image:url(assets/img/soccer-3.jpg)">
+      <div class="sp-scope"><i></i></div>
+    </div>
+  </div>
+  <div class="sp-copy">
+    <span class="kicker">Instant · Spot the Ball</span>
+    <h1>Slot<br><em>the</em> Ball</h1>
+    <p>A real moment lands. The ball is gone.<br>You get <b>one shot</b> — the closer, the bigger.</p>
+    <ol class="sp-steps">
+      <li><b>1</b>Stake</li>
+      <li><b>2</b>Spin</li>
+      <li><b>3</b>Shoot</li>
+      <li class="x"><b>×10</b>Win</li>
+    </ol>
+    <button class="btn-gold" id="playBtn">Play <small>$100 demo balance</small></button>
+  </div>
+</section>
+
+<!-- ============ APP ============ -->
+<main class="app" id="app">
+  <header class="top">
+    <div class="brand"><span class="logo-ball"></span><span>Slot <em>the</em> Ball</span></div>
+    <div class="top-r">
+      <button class="icon-btn" id="muteBtn" aria-label="Sound"></button>
+      <div class="bal" id="balPill"><small>Balance</small><b id="bal">$100.00</b></div>
+    </div>
+  </header>
+
+  <div class="ticker"><div class="tk-track" id="ticker"></div></div>
+
+  <nav class="filters" id="filters">
+    <button data-f="all" class="on">All</button>
+    <button data-f="soccer">⚽ Soccer</button>
+    <button data-f="basketball">🏀 Hoops</button>
+    <button data-f="football">🏈 Football</button>
+  </nav>
+
+  <section class="cabinet" id="cabinet">
+    <div class="bulbs top" id="bulbsTop"></div>
+    <div class="frame-head" id="frameHead">
+      <span class="fh-sport" id="fhSport">◎</span>
+      <div><b id="fhTitle">Ready to spin</b><small id="fhSub">11 real moments · ball removed</small></div>
+      <span class="fh-tag" id="fhTag">Frame —</span>
+    </div>
+    <div class="window" id="win">
+      <div class="reels" id="reels">
+        <div class="col"><div class="strip"></div></div>
+        <div class="col"><div class="strip"></div></div>
+        <div class="col"><div class="strip"></div></div>
+      </div>
+      <div class="seams"><i></i><i></i></div>
+      <div class="board" id="board"></div>
+      <div class="idle" id="idle">
+        <div class="scope"><i></i></div>
+        <b>Spin to drop a moment</b>
+        <span>Find where the ball must be — one shot</span>
+      </div>
+      <div class="sweep" id="sweep"></div>
+    </div>
+    <div class="meter" id="meter">
+      <div class="m-l"><small id="mLbl">Win</small><b id="mVal">$0.00</b></div>
+      <div class="m-r" id="mMsg">Pick a stake, then spin</div>
+    </div>
+    <div class="bulbs bot" id="bulbsBot"></div>
+  </section>
+
+  <section class="paytable" id="paytable"></section>
+
+  <section class="controls">
+    <div class="chips" id="chips"></div>
+    <button class="spin" id="spinBtn"><span class="sp-ring"></span><b id="spinLbl">Spin</b><small id="spinSub">$2.00</small></button>
+  </section>
+
+  <section class="history">
+    <div class="h-head"><b>Your shots</b><span id="hStats">—</span></div>
+    <div class="h-row" id="hist"><span class="h-none">No shots yet. Your close-ups land here.</span></div>
+  </section>
+</main>
+
+<div class="loupe" id="loupe"><div class="lp-img" id="lpImg"></div><div class="lp-ball" id="lpBall"></div><i class="lp-v"></i><i class="lp-h"></i></div>
+
+<div class="bigwin" id="bigwin">
+  <div class="bw-rays"></div>
+  <div class="bw-in">
+    <small id="bwKick">Bullseye</small>
+    <b id="bwMul">×10</b>
+    <span id="bwAmt">+$20.00</span>
+    <em>Tap to continue</em>
+  </div>
+</div>
+
+<canvas id="fx"></canvas>
+<script src="app.js"></script>
+</body>
+</html>
