@@ -236,7 +236,7 @@ em { font-style: normal; }
 @keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 
 /* ---------------- paytable ---------------- */
-.paytable { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 16px 0 0; }
+.paytable { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 16px 0 0; }
 .pt { position: relative; padding: 9px 4px 8px; border-radius: 12px; text-align: center; border: 1px solid var(--line); background: rgba(255, 255, 255, .02); transition: .3s; }
 .pt i { display: block; width: 18px; height: 18px; margin: 0 auto 5px; border-radius: 50%; border: 2px solid var(--c); box-shadow: 0 0 8px -1px var(--c); }
 .pt b { display: block; font: 900 22px/1 var(--disp); color: var(--c); }

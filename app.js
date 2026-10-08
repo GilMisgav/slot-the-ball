@@ -2,7 +2,9 @@
    Slot the Ball — mobile instant mode.
    Stake → three reels spin slices of real frames → they lock into one
    photo with the ball erased → touch-drag to aim (loupe) → one shot →
-   the judges' ball drops in, the rings pay ×10 · ×5 · ×2 · stake back.
+   the judges' ball drops in, the rings pay ×6 · ×3 · ×1.5; outside them the stake is lost.
+   Paytable is sized for ~85% RTP when a typical player's miss has a median of
+   ~2 ball widths (Rayleigh σ = 1.7 bw), hitting about 1 shot in 3.
    ============================================================= */
 (() => {
 'use strict';
@@ -27,8 +29,9 @@ const FRAMES = [
 const ICON = { soccer: '⚽', basketball: '🏀', football: '🏈' };
 const SPORT = { soccer: 'Soccer', basketball: 'Basketball', football: 'Football' };
 /* r = zone radius in ball widths */
-const ZONES = [{ m: 10, r: .5, c: '#ffc247', t: 'Bullseye' }, { m: 5, r: 1, c: '#22d3ee', t: 'Close' },
-               { m: 2, r: 1.7, c: '#34e5a1', t: 'Near' }, { m: 1, r: 2.6, c: '#a884ff', t: 'Stake back' }];
+const ZONES = [{ m: 6, r: .5, c: '#ffc247', t: 'Bullseye' }, { m: 3, r: 1, c: '#22d3ee', t: 'Close' },
+               { m: 1.5, r: 1.5, c: '#34e5a1', t: 'Near' }];
+const TOP = ZONES[0].m;
 const STAKES = [{ v: 1, c: '#5b2fd6' }, { v: 2, c: '#0e8ea8' }, { v: 5, c: '#c92a64' }, { v: 10, c: '#b8780f' }];
 
 const BALL = {
@@ -105,9 +108,9 @@ const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (
 const winEl = $('#win'), board = $('#board'), cols = $$('.col'), loupe = $('#loupe');
 ['#bulbsTop', '#bulbsBot'].forEach(s => { $(s).innerHTML = Array.from({ length: 18 }, (_, i) => `<i style="animation-delay:${(i % 6) * .16}s"></i>`).join(''); });
 
-const TICK = [['HawkeyeDan', 10, 50], ['Mia_K', 5, 10], ['PitchPerfect', 2, 10], ['LensQueen', 10, 100], ['ZoneReader', 5, 25],
-  ['TopBinsTara', 2, 4], ['EagleEyeEli', 10, 20], ['SwishSofia', 5, 50], ['RadarRay', 2, 20], ['CourtVision', 10, 100]];
-const tk = TICK.map(([n, m, w]) => `<span><b>${n}</b> hit <i>×${m}</i> · +$${w}</span>`).join('');
+const TICK = [['HawkeyeDan', 6, 30], ['Mia_K', 3, 6], ['PitchPerfect', 1.5, 7.5], ['LensQueen', 6, 60], ['ZoneReader', 3, 15],
+  ['TopBinsTara', 1.5, 3], ['EagleEyeEli', 6, 12], ['SwishSofia', 3, 30], ['RadarRay', 1.5, 15], ['CourtVision', 6, 60]];
+const tk = TICK.map(([n, m, w]) => `<span><b>${n}</b> hit <i>×${m}</i> · +${money(w)}</span>`).join('');
 $('#ticker').innerHTML = tk + tk;
 
 $('#chips').innerHTML = STAKES.map(s => `<button class="chip" data-v="${s.v}" style="--cc:${s.c}"><span>$${s.v}</span></button>`).join('');
@@ -346,9 +349,9 @@ function result(z, m, win, bw) {
     setMeter('Win', null, `${z.t} · ${bw.toFixed(1)} ball-widths <span class="mul" style="color:${z.c}">×${m}</span>`, 'win');
     countTo($('#mVal'), 0, win, 900, money, k => { if (Math.random() < .35 && k < 1) SFX.coin(); });
     setTimeout(() => renderBal(true), 500);
-    SFX.win(m >= 5); buzz(m >= 5 ? [30, 50, 30, 50, 60] : [25, 40, 25]);
+    SFX.win(m >= 3); buzz(m >= 3 ? [30, 50, 30, 50, 60] : [25, 40, 25]);
     if (m > 1) { $('#cabinet').classList.add('party'); coins(Math.min(150, m * 14)); }
-    if (m === 10) setTimeout(() => bigWin(win), 700);
+    if (m === TOP) setTimeout(() => bigWin(win), 700);
   } else {
     save();
     setMeter('Win', money(0), `<b>Missed</b> · ${bw.toFixed(1)} ball-widths off`, 'lose shake');
@@ -378,7 +381,7 @@ function renderHist() {
 
 /* ---------------- big win ---------------- */
 function bigWin(win) {
-  $('#bwMul').textContent = '×10'; $('#bwAmt').textContent = '+' + money(win);
+  $('#bwMul').textContent = '×' + TOP; $('#bwAmt').textContent = '+' + money(win);
   const o = $('#bigwin'); o.classList.add('on'); coins(90, true); SFX.win(true);
 }
 $('#bigwin').addEventListener('click', () => $('#bigwin').classList.remove('on'));
