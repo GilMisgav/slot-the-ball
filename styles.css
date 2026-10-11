@@ -22,7 +22,6 @@ body {
     radial-gradient(120% 60% at 50% -10%, rgba(124, 77, 255, .38), transparent 60%),
     radial-gradient(90% 50% at 50% 110%, rgba(255, 194, 71, .14), transparent 60%),
     var(--ink);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased; user-select: none; -webkit-user-select: none;
 }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
@@ -121,11 +120,13 @@ em { font-style: normal; }
 }
 .bulbs { position: absolute; left: 22px; right: 22px; height: 6px; display: flex; justify-content: space-between; }
 .bulbs.top { top: 6px; } .bulbs.bot { bottom: 5px; }
-.bulbs i { width: 5px; height: 5px; border-radius: 50%; background: #5a4520; animation: bulb 1.6s infinite; }
-@keyframes bulb { 0%, 100% { background: #5a4520; box-shadow: none; } 50% { background: var(--gold-hi); box-shadow: 0 0 8px var(--gold), 0 0 2px #fff; } }
+.bulbs i { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-hi); box-shadow: 0 0 6px var(--gold); opacity: .22; animation: bulb 1.6s infinite; will-change: opacity; }
+@keyframes bulb { 50% { opacity: 1; } }
 .cabinet.party .bulbs i { animation-duration: .35s; }
-.cabinet.party { animation: cabGlow .5s 4 alternate; }
-@keyframes cabGlow { to { box-shadow: 0 0 0 1px var(--gold-hi), 0 0 0 5px #120b30, 0 0 0 6px var(--gold), 0 30px 70px -20px rgba(0, 0, 0, .9), 0 0 120px -10px rgba(255, 194, 71, .9); } }
+.cabinet::after { content: ''; position: absolute; inset: -6px; border-radius: 30px; pointer-events: none; opacity: 0;
+  box-shadow: 0 0 0 2px var(--gold-hi), 0 0 90px -6px rgba(255, 194, 71, .9); }
+.cabinet.party::after { animation: cabGlow .5s 4 alternate; }
+@keyframes cabGlow { to { opacity: 1; } }
 
 .frame-head { display: flex; align-items: center; gap: 10px; padding: 0 4px 10px; min-height: 44px; }
 .fh-sport { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; font-size: 17px;
@@ -141,10 +142,9 @@ em { font-style: normal; }
 .window { position: relative; aspect-ratio: 3 / 2; border-radius: 14px; overflow: hidden; background: #000;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .8), 0 0 0 2px rgba(255, 194, 71, .55), inset 0 0 30px rgba(0, 0, 0, .6); touch-action: none; }
 .reels { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
-.col { position: relative; overflow: hidden; }
+.col { position: relative; overflow: hidden; contain: strict; }
 .strip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 .strip > div { width: 100%; height: var(--ch, 200px); background-repeat: no-repeat; background-size: 300% 100%; }
-.col.blur .strip { filter: blur(1.6px) brightness(.85) saturate(1.2); }
 .col::after { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(180deg, rgba(0, 0, 0, .55), transparent 22%, transparent 78%, rgba(0, 0, 0, .55)); transition: opacity .5s; }
 .window.landed .col::after { opacity: 0; }
@@ -167,7 +167,7 @@ em { font-style: normal; }
 .scope::before { left: 50%; top: -9px; bottom: -9px; width: 2px; margin-left: -1px; }
 .scope::after { top: 50%; left: -9px; right: -9px; height: 2px; margin-top: -1px; }
 .scope i { position: absolute; inset: 22px; border-radius: 50%; background: var(--cyan); }
-@keyframes breathe { 50% { transform: scale(1.12); box-shadow: 0 0 36px rgba(34, 211, 238, .8); } }
+@keyframes breathe { 50% { transform: scale(1.12); } }
 
 /* ---------------- board (aim + reveal) ---------------- */
 .board { position: absolute; inset: 0; z-index: 3; display: none; }
@@ -191,8 +191,8 @@ em { font-style: normal; }
 @keyframes pinPulse { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
 .board.revealing .pin::after, .board.revealing .pin em { display: none; }
 .board.hint::before { content: 'Drag to aim · lift to shoot'; position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 6;
-  font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(7, 6, 26, .75);
-  border: 1px solid rgba(34, 211, 238, .5); padding: 6px 12px; border-radius: 999px; backdrop-filter: blur(6px); animation: hintIn .5s .3s both; pointer-events: none; }
+  font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: rgba(7, 6, 26, .88);
+  border: 1px solid rgba(34, 211, 238, .5); padding: 6px 12px; border-radius: 999px; animation: hintIn .5s .3s both; pointer-events: none; }
 @keyframes hintIn { from { opacity: 0; transform: translate(-50%, 8px); } }
 
 .rb { position: absolute; z-index: 7; transform: translate(-50%, -50%) scale(.1); opacity: 0; pointer-events: none;
