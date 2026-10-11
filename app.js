@@ -25,6 +25,27 @@ const FRAMES = [
   { id: 'bb-topkey', sport: 'basketball', title: 'Top of the Key', sub: 'Bird\'s-eye over the rim', img: 'assets/img/basketball-1.jpg', target: { x: 46.5, y: 87.8 }, ballSize: 9.4, ballImg: 'assets/balls/bb-topkey.png', ballW: 16.3 },
   { id: 'bb-rimrunner', sport: 'basketball', title: 'Rim Runner', sub: 'Traffic in the paint', img: 'assets/img/basketball-2.jpg', target: { x: 48.8, y: 10.0 }, ballSize: 8.9, ballImg: 'assets/balls/bb-rimrunner.png', ballW: 18.83 },
   { id: 'bb-elevation', sport: 'basketball', title: 'Elevation', sub: 'Two bigs, one ball', img: 'assets/img/basketball-3.jpg', target: { x: 48.1, y: 7.0 }, ballSize: 5.1, ballImg: 'assets/balls/bb-elevation.png', ballW: 10.94 },
+  // October batch — imported with the ball in shot; erased by slot-mobile-src/import_frames.py
+  { id: 'bb-swat', sport: 'basketball', title: "Swat Team", sub: "Fingertips at the rim", img: 'assets/img/bb-swat.jpg', target: { x: 26.5, y: 22.3 }, ballSize: 15.6, ballImg: 'assets/balls/bb-swat.png', ballW: 23.43 },
+  { id: 'bb-underneath', sport: 'basketball', title: "Up and Under", sub: "Reaching through traffic", img: 'assets/img/bb-underneath.jpg', target: { x: 69.6, y: 7.5 }, ballSize: 6.4, ballImg: 'assets/balls/bb-underneath.png', ballW: 9.57 },
+  { id: 'bb-floater', sport: 'basketball', title: "The Floater", sub: "Off-balance in the lane", img: 'assets/img/bb-floater.jpg', target: { x: 52.9, y: 14.7 }, ballSize: 5.2, ballImg: 'assets/balls/bb-floater.png', ballW: 7.92 },
+  { id: 'bb-floorburn', sport: 'basketball', title: "Floor Burn", sub: "Diving for the loose ball", img: 'assets/img/bb-floorburn.jpg', target: { x: 76.9, y: 63.2 }, ballSize: 8.5, ballImg: 'assets/balls/bb-floorburn.png', ballW: 12.71 },
+  { id: 'bb-catchshoot', sport: 'basketball', title: "Catch & Shoot", sub: "A hand up \u2014 too late?", img: 'assets/img/bb-catchshoot.jpg', target: { x: 67.2, y: 12.5 }, ballSize: 9.6, ballImg: 'assets/balls/bb-catchshoot.png', ballW: 14.48 },
+  { id: 'bb-overhead', sport: 'basketball', title: "Overhead", sub: "Bird's-eye at the rim", img: 'assets/img/bb-overhead.jpg', target: { x: 63.0, y: 51.0 }, ballSize: 15.4, ballImg: 'assets/balls/bb-overhead.png', ballW: 23.31 },
+  { id: 'sc-nearpost', sport: 'soccer', title: "Near Post", sub: "Keeper at full stretch", img: 'assets/img/sc-nearpost.jpg', target: { x: 44.2, y: 78.0 }, ballSize: 4.0, ballImg: 'assets/balls/sc-nearpost.png', ballW: 6.06 },
+  { id: 'sc-aerial', sport: 'soccer', title: "Aerial Duel", sub: "Two jump, one wins", img: 'assets/img/sc-aerial.jpg', target: { x: 46.8, y: 9.1 }, ballSize: 6.6, ballImg: 'assets/balls/sc-aerial.png', ballW: 10.03 },
+  { id: 'sc-headtohead', sport: 'soccer', title: "Head to Head", sub: "Shoulder to shoulder in the air", img: 'assets/img/sc-headtohead.jpg', target: { x: 46.8, y: 15.0 }, ballSize: 8.9, ballImg: 'assets/balls/sc-headtohead.png', ballW: 13.4 },
+  { id: 'sc-glancing', sport: 'soccer', title: "Glancing Header", sub: "Eyes closed, neck bent", img: 'assets/img/sc-glancing.jpg', target: { x: 17.2, y: 31.8 }, ballSize: 14.2, ballImg: 'assets/balls/sc-glancing.png', ballW: 21.38 },
+  { id: 'sc-spot', sport: 'soccer', title: "From the Spot", sub: "Penalty \u2014 which way did it go?", img: 'assets/img/sc-spot.jpg', target: { x: 54.3, y: 65.4 }, ballSize: 5.0, ballImg: 'assets/balls/sc-spot.png', ballW: 7.58 },
+  { id: 'sc-corner', sport: 'soccer', title: "Corner Chaos", sub: "Four men, one ball", img: 'assets/img/sc-corner.jpg', target: { x: 53.2, y: 11.9 }, ballSize: 9.7, ballImg: 'assets/balls/sc-corner.png', ballW: 14.62 },
+  { id: 'sc-rising', sport: 'soccer', title: "Rising Highest", sub: "The flick-on at the far post", img: 'assets/img/sc-rising.jpg', target: { x: 57.4, y: 13.6 }, ballSize: 8.7, ballImg: 'assets/balls/sc-rising.png', ballW: 13.09 },
+  { id: 'sc-volley', sport: 'soccer', title: "The Volley", sub: "Knee-high and dropping", img: 'assets/img/sc-volley.jpg', target: { x: 30.1, y: 36.7 }, ballSize: 8.3, ballImg: 'assets/balls/sc-volley.png', ballW: 12.51 },
+  { id: 'fb-release', sport: 'football', title: "The Release", sub: "Throwing over the rush", img: 'assets/img/fb-release.jpg', target: { x: 35.3, y: 11.3 }, ballSize: 5.4, ballImg: 'assets/balls/fb-release.png', ballW: 8.15 },
+  { id: 'fb-tipped', sport: 'football', title: "Tipped", sub: "The lineman goes down swinging", img: 'assets/img/fb-tipped.jpg', target: { x: 54.5, y: 36.1 }, ballSize: 6.2, ballImg: 'assets/balls/fb-tipped.png', ballW: 9.33 },
+  { id: 'fb-deepshot', sport: 'football', title: "Deep Shot", sub: "Sideline launch under pressure", img: 'assets/img/fb-deepshot.jpg', target: { x: 38.3, y: 8.0 }, ballSize: 6.0, ballImg: 'assets/balls/fb-deepshot.png', ballW: 9.1 },
+  { id: 'fb-handsready', sport: 'football', title: "Hands Ready", sub: "Eyes on the ball, defender closing", img: 'assets/img/fb-handsready.jpg', target: { x: 28.8, y: 28.5 }, ballSize: 9.1, ballImg: 'assets/balls/fb-handsready.png', ballW: 13.73 },
+  { id: 'fb-endzone', sport: 'football', title: "End Zone", sub: "The catch \u2014 or the drop", img: 'assets/img/fb-endzone.jpg', target: { x: 51.0, y: 23.7 }, ballSize: 7.6, ballImg: 'assets/balls/fb-endzone.png', ballW: 11.44 },
+  { id: 'fb-stripsack', sport: 'football', title: "Strip Sack", sub: "Hit as he lets it go", img: 'assets/img/fb-stripsack.jpg', target: { x: 71.2, y: 40.9 }, ballSize: 7.9, ballImg: 'assets/balls/fb-stripsack.png', ballW: 11.88 },
 ];
 const ICON = { soccer: '⚽', basketball: '🏀', football: '🏈' };
 const SPORT = { soccer: 'Soccer', basketball: 'Basketball', football: 'Football' };
@@ -122,8 +143,24 @@ const MUTE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="#a99fd0" stroke-w
 const renderMute = () => { $('#muteBtn').innerHTML = S.muted ? MUTE_OFF : MUTE_ON; };
 $('#muteBtn').addEventListener('click', () => { S.muted = !S.muted; save(); renderMute(); if (!S.muted) SFX.place(); });
 
-/* preload every frame so the reels never flash empty */
-FRAMES.forEach(f => { new Image().src = f.img; new Image().src = f.ballImg; });
+/* preload every frame; the reels only spin frames that have arrived, so they never flash empty */
+const LOADED = [];
+FRAMES.forEach(f => { const im = new Image(); im.onload = () => LOADED.push(f); im.src = f.img; new Image().src = f.ballImg; });
+const filler = () => pick(LOADED.length > 2 ? LOADED : FRAMES);
+$('#fhSub').textContent = `${FRAMES.length} real moments · ball removed`;
+
+/* the deck: a session never repeats a frame until every frame in the filter has been played */
+const DECK_KEY = 'stb_slot_seen_v1';
+const seen = new Set((() => { try { return JSON.parse(sessionStorage.getItem(DECK_KEY)) || []; } catch (e) { return []; } })());
+function draw() {
+  const pool = FRAMES.filter(f => filter === 'all' || f.sport === filter);
+  let fresh = pool.filter(f => !seen.has(f.id)), reshuffled = false;
+  if (!fresh.length) { pool.forEach(f => seen.delete(f.id)); fresh = pool.filter(f => f !== frame); reshuffled = true; }
+  const f = pick(fresh); seen.add(f.id);
+  try { sessionStorage.setItem(DECK_KEY, JSON.stringify([...seen])); } catch (e) {}
+  return { f, n: pool.filter(x => seen.has(x.id)).length, total: pool.length, reshuffled };
+}
+let deal = null;
 
 /* ---------------- balance + meter ---------------- */
 let balShown = S.bal;
@@ -184,14 +221,13 @@ function placeStrips() {
   const H = cellH(); winEl.style.setProperty('--ch', H + 'px');
   cols.forEach(c => { c.firstElementChild.style.transform = `translateY(${-c._idx * H}px)`; });
 }
-cols.forEach((c, i) => { c._cur = pick(FRAMES); c._idx = 0; c.firstElementChild.innerHTML = cell(c._cur, i); });
+cols.forEach((c, i) => { c._cur = filler(); c._idx = 0; c.firstElementChild.innerHTML = cell(c._cur, i); });
 addEventListener('resize', () => { if (phase !== 'spin') placeStrips(); });
 
 function spin() {
   phase = 'spin'; pin = null;
   S.bal = round(S.bal - S.stake); save(); renderBal(true);
-  const pool = FRAMES.filter(f => filter === 'all' || f.sport === filter);
-  frame = pick(pool.length > 1 ? pool.filter(f => f !== frame) : pool);
+  deal = draw(); frame = deal.f;
   setBtn();
   board.className = 'board'; board.innerHTML = '';
   $('#idle').classList.add('out'); winEl.classList.remove('landed');
@@ -205,9 +241,9 @@ function spin() {
   cols.forEach((col, i) => {
     const strip = col.firstElementChild, N = 13 + i * 5;
     // [spare above, current, …random…, landing frame, spare below]
-    const cells = [pick(FRAMES), col._cur];
-    for (let k = 2; k < N; k++) cells.push(pick(FRAMES));
-    cells.push(frame, pick(FRAMES));
+    const cells = [filler(), col._cur];
+    for (let k = 2; k < N; k++) cells.push(filler());
+    cells.push(frame, filler());
     const T = cells.length - 2, end = -T * H, dur = 1450 + i * 520;
     strip.getAnimations().forEach(a => a.cancel());
     strip.innerHTML = cells.map(c => cell(c, i)).join('');
@@ -243,10 +279,10 @@ function landed() {
   SFX.land(); buzz([10, 40, 10]);
   const fh = $('#frameHead'); void fh.offsetWidth; fh.classList.add('in');
   $('#fhSport').textContent = ICON[frame.sport]; $('#fhTitle').textContent = frame.title; $('#fhSub').textContent = frame.sub;
-  $('#fhTag').textContent = SPORT[frame.sport];
+  $('#fhTag').textContent = `${deal.n} / ${deal.total}`;
   setTimeout(() => {
     phase = 'aim'; mountBoard(); setBtn();
-    setMeter('Stake', money(S.stake), '<b>Ball removed.</b> Drag to aim — lift your finger to shoot');
+    setMeter('Stake', money(S.stake), (deal.reshuffled ? '<b>Deck reshuffled.</b> ' : '<b>Ball removed.</b> ') + 'Drag to aim — lift your finger to shoot');
   }, 380);
 }
 
