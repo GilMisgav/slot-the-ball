@@ -4,7 +4,7 @@
    photo with the ball erased → touch-drag to aim (loupe) → one shot →
    the judges' ball drops in, the rings pay ×6 · ×3 · ×1.5; outside them the stake is lost.
    Paytable is sized for ~85% RTP when a typical player's miss has a median of
-   ~2 ball widths (Rayleigh σ = 1.7 bw), hitting about 1 shot in 3.
+   ~16% of the frame width (Rayleigh σ = 13.6%), hitting about 1 shot in 3.
    ============================================================= */
 (() => {
 'use strict';
@@ -49,10 +49,16 @@ const FRAMES = [
 ];
 const ICON = { soccer: '⚽', basketball: '🏀', football: '🏈' };
 const SPORT = { soccer: 'Soccer', basketball: 'Basketball', football: 'Football' };
-/* r = zone radius in ball widths */
-const ZONES = [{ m: 6, r: .5, c: '#ffc247', t: 'Bullseye' }, { m: 3, r: 1, c: '#22d3ee', t: 'Close' },
-               { m: 1.5, r: 1.5, c: '#34e5a1', t: 'Near' }];
+/* r = zone radius in % of frame WIDTH — the same on every frame, whatever size the ball is in
+   that photo (it ranges 4–16% of the width). 4/8/12 = the old .5/1/1.5 ball widths at the
+   library's median ball (~8%), so the RTP model above still holds. The guess is a fixed
+   crosshair the size of the bullseye, never a ball scaled to the photo. */
+const ZONES = [{ m: 6, r: 4, c: '#ffc247', t: 'Bullseye' }, { m: 3, r: 8, c: '#22d3ee', t: 'Close' },
+               { m: 1.5, r: 12, c: '#34e5a1', t: 'Near' }];
 const TOP = ZONES[0].m;
+const RETI = 2 * ZONES[0].r;                            // crosshair diameter, % of frame width
+const RETICLE = '<i class="rt-dot"></i>';
+const px = d => Math.round(d * 40);                     // distance on a virtual 4000px-wide master, as on the site
 const STAKES = [{ v: 1, c: '#5b2fd6' }, { v: 2, c: '#0e8ea8' }, { v: 5, c: '#c92a64' }, { v: 10, c: '#b8780f' }];
 
 const BALL = {
@@ -136,7 +142,7 @@ $('#ticker').innerHTML = tk + tk;
 
 $('#chips').innerHTML = STAKES.map(s => `<button class="chip" data-v="${s.v}" style="--cc:${s.c}"><span>$${s.v}</span></button>`).join('');
 $('#paytable').innerHTML = ZONES.map(z => `<div class="pt" data-m="${z.m}" style="--c:${z.c}"><i></i><b>×${z.m}</b><span>${z.t}</span></div>`).join('')
-  + `<div class="pt-note">Rings are measured in ball widths from the judges' ball. Outside them, the stake is lost.</div>`;
+  + `<div class="pt-note">Same rings on every frame, centred on the judges' ball. Outside them, the stake is lost.</div>`;
 
 const MUTE_ON = `<svg viewBox="0 0 24 24" fill="none" stroke="#f3f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>`;
 const MUTE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="#a99fd0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/></svg>`;
@@ -304,10 +310,10 @@ function mountBoard() {
   const f = frame;
   board.innerHTML = `<img class="ph" src="${f.img}" alt="" draggable="false">
     <div class="xh v"></div><div class="xh h"></div>
-    <div class="ghost" style="width:${f.ballSize}%;aspect-ratio:${1 / ballH(f.sport)}">${BALL[f.sport]}</div>`;
+    <div class="ghost reti" style="width:${RETI}%">${RETICLE}</div>`;
   board.className = 'board on hint';
   $('#lpImg').style.backgroundImage = `url(${f.img})`;
-  $('#lpBall').innerHTML = BALL[f.sport];
+  $('#lpBall').innerHTML = RETICLE;
 }
 const Z = 3, LS = 120;                                  // loupe zoom + size
 function at(e) {
@@ -323,7 +329,7 @@ function aim(e, withLoupe) {
     const W = p.r.width * Z, Hh = p.r.height * Z, img = $('#lpImg'), b = $('#lpBall');
     img.style.width = W + 'px'; img.style.height = Hh + 'px'; img.style.backgroundSize = '100% 100%';
     img.style.transform = `translate(${LS / 2 - p.x / 100 * W}px, ${LS / 2 - p.y / 100 * Hh}px)`;
-    const bw = f.ballSize / 100 * W; b.style.width = bw + 'px'; b.style.height = bw * ballH(f.sport) + 'px';
+    const bw = RETI / 100 * W; b.style.width = b.style.height = bw + 'px';
     let lx = e.clientX - LS / 2, ly = e.clientY - LS - 56;
     if (ly < 8) ly = e.clientY + 56;
     lx = Math.max(8, Math.min(innerWidth - LS - 8, lx));
@@ -357,7 +363,7 @@ board.addEventListener('pointerleave', () => board.classList.remove('hover'));
 function place(p) {
   pin = p;
   board.querySelector('.pin')?.remove();
-  board.insertAdjacentHTML('beforeend', `<div class="pin ${p.y < 22 ? 'low' : ''}" style="left:${p.x}%;top:${p.y}%;width:${frame.ballSize}%;aspect-ratio:${1 / ballH(frame.sport)}">${BALL[frame.sport]}<em>Your shot</em></div>`);
+  board.insertAdjacentHTML('beforeend', `<div class="pin reti ${p.y < 22 ? 'low' : ''}" style="left:${p.x}%;top:${p.y}%;width:${RETI}%">${RETICLE}<em>Your shot</em></div>`);
   SFX.place(); buzz(12);
   // the mark IS the shot — no submit step, the reveal starts straight away
   phase = 'reveal'; setBtn();
@@ -368,12 +374,12 @@ function place(p) {
 function shoot() {
   phase = 'reveal'; setBtn();
   const f = frame, t = f.target;
-  const d = dist(f, pin), bw = d / f.ballSize, z = ZONES.find(z => bw <= z.r), m = z ? z.m : 0, win = round(S.stake * m);
+  const d = dist(f, pin), z = ZONES.find(z => d <= z.r), m = z ? z.m : 0, win = round(S.stake * m);
   board.classList.remove('hint', 'hover'); board.classList.add('revealing', 'dim');
   board.insertAdjacentHTML('beforeend',
     ZONES.map(zz => {
-      const low = t.y - zz.r * f.ballSize / AR < 7;     // ring top above the frame → label underneath
-      return `<div class="ring ${low ? 'lowlbl' : ''}" data-m="${zz.m}" style="--c:${zz.c};left:${t.x}%;top:${t.y}%;width:${2 * zz.r * f.ballSize}%"><b>×${zz.m}</b></div>`;
+      const low = t.y - zz.r / AR < 7;     // ring top above the frame → label underneath
+      return `<div class="ring ${low ? 'lowlbl' : ''}" data-m="${zz.m}" style="--c:${zz.c};left:${t.x}%;top:${t.y}%;width:${2 * zz.r}%"><b>×${zz.m}</b></div>`;
     }).join('')
     + `<img class="rb" src="${f.ballImg}" alt="" style="left:${t.x}%;top:${t.y}%;width:${f.ballW}%">`
     + `<svg class="rline" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="${pin.x}" y1="${pin.y}" x2="${t.x}" y2="${t.y}"/></svg>`);
@@ -383,10 +389,10 @@ function shoot() {
   const rings = [...board.querySelectorAll('.ring')];
   rings.forEach((r, i) => setTimeout(() => { r.classList.add('on'); SFX.ring(i); }, 1050 + i * 150));
   setTimeout(() => board.classList.add('lined'), 1750);
-  setTimeout(() => result(z, m, win, bw), 2100);
+  setTimeout(() => result(z, m, win, d), 2100);
 }
 
-function result(z, m, win, bw) {
+function result(z, m, win, d) {
   const f = frame;
   if (z) {
     board.querySelector(`.ring[data-m="${m}"]`).classList.add('hit');
@@ -395,7 +401,7 @@ function result(z, m, win, bw) {
   S.hist.unshift({ id: f.id, m, win, stake: S.stake, x: pin.x, y: pin.y }); S.hist = S.hist.slice(0, 20);
   if (m) {
     S.bal = round(S.bal + win); save();
-    setMeter('Win', null, `${z.t} · ${bw.toFixed(1)} ball-widths <span class="mul" style="color:${z.c}">×${m}</span>`, 'win');
+    setMeter('Win', null, `${z.t} · ${px(d)} px off <span class="mul" style="color:${z.c}">×${m}</span>`, 'win');
     countTo($('#mVal'), 0, win, 900, money, k => { if (Math.random() < .35 && k < 1) SFX.coin(); });
     setTimeout(() => renderBal(true), 500);
     SFX.win(m >= 3); buzz(m >= 3 ? [30, 50, 30, 50, 60] : [25, 40, 25]);
@@ -403,7 +409,7 @@ function result(z, m, win, bw) {
     if (m === TOP) setTimeout(() => bigWin(win), 700);
   } else {
     save();
-    setMeter('Win', money(0), `<b>Missed</b> · ${bw.toFixed(1)} ball-widths off`, 'lose shake');
+    setMeter('Win', money(0), `<b>Missed</b> · ${px(d)} px off`, 'lose shake');
     SFX.lose(); buzz(60);
   }
   renderHist();

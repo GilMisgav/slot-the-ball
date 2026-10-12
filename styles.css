@@ -312,3 +312,18 @@ em { font-style: normal; }
 @media (prefers-reduced-motion: reduce) {
   .tk-track, .bw-rays, .sp-scope, .scope, .spin .sp-ring { animation: none; }
 }
+
+/* the guess: one fixed crosshair, same size on every frame */
+.reti { aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--rc, var(--cyan)); }
+.reti::before, .reti::after { content: ''; position: absolute; background: var(--rc, var(--cyan)); }
+.reti::before { left: 50%; top: -45%; bottom: -45%; width: 2px; margin-left: -1px; }
+.reti::after { top: 50%; left: -45%; right: -45%; height: 2px; margin-top: -1px; }
+.rt-dot { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: var(--rc, var(--cyan)); }
+.ghost.reti { filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 6px var(--cyan)); }
+.pin.reti { --rc: var(--gold-hi); }
+.lp-ball { --rc: var(--cyan); border-radius: 50%; border: 2px solid var(--cyan); }
+.lp-ball::before, .lp-ball::after { content: ''; position: absolute; background: var(--cyan); }
+.lp-ball::before { left: 50%; top: -45%; bottom: -45%; width: 2px; margin-left: -1px; }
+.lp-ball::after { top: 50%; left: -45%; right: -45%; height: 2px; margin-top: -1px; }
+.pin.reti::after, .board.revealing .pin.reti::after { display: block; width: auto; height: 2px; left: -45%; right: -45%; top: 50%; margin: -1px 0 0;
+  border: 0; border-radius: 0; animation: none; }
